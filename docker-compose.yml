@@ -1,0 +1,25 @@
+version: "3.4"
+services:
+  db:
+    image: postgres:9.4.20-alpine
+    hostname: db
+    container_name: db
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: blog
+      POSTGRES_PASSWORD: blog
+  app:
+    build: .
+    hostname: app
+    container_name: app
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+    command: ["--module", "blog.wsgi:application", "--http", "0:8080","--processes", "4", "--py-autoreload", "1"]
+
+volumes:
+  postgres: {}

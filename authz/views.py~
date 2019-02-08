@@ -1,0 +1,10 @@
+from django.shortcuts import render
+from rest_framework import viewsets, generics
+from rest_framework.response import Response
+from authz.serializers import UserSerializer
+from authz.models import User
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_fields = ('username',)
